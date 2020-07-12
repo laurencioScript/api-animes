@@ -1,6 +1,6 @@
 import { Anime } from './anime.entity';
-import { Repository, EntityRepository } from 'typeorm';
-import { CreateAnimeDto, UpdateAnimeDto } from './anime.dto';
+import { Repository, EntityRepository, Like, Raw } from 'typeorm';
+import { CreateAnimeDto, UpdateAnimeDto, FilterAnimeDto } from './anime.dto';
 import { Inject } from '@nestjs/common';
 
 @EntityRepository(Anime)
@@ -19,8 +19,25 @@ export class AnimeRepository {
     return this.repository.findOne(animeId);
   }
 
-  getAll() {
-    return this.repository.find();
+  getAll(filter: FilterAnimeDto) {
+    const params: any = {};
+    filter.name ? (params.name = Like(`%${filter.name}%`)) : undefined;
+    filter.genre ? (params.genre = Like(`%${filter.genre}%`)) : undefined;
+    filter.type ? (params.type = Like(`%${filter.type}%`)) : undefined;
+    filter.episodes
+      ? (params.episodes = Like(`%${filter.episodes}%`))
+      : undefined;
+    filter.rating ? (params.rating = Like(`%${filter.rating}%`)) : undefined;
+    filter.origin ? (params.origin = Like(`%${filter.origin}%`)) : undefined;
+
+    return this.repository.find({
+      where: params,
+      order: {
+        name: 'ASC',
+      },
+      skip: filter.offset || 0,
+      take: filter.limit || 100,
+    });
   }
 
   async updateAnime(dataAnime: UpdateAnimeDto) {

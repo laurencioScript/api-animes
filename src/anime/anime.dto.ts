@@ -1,5 +1,11 @@
-import { IsEmail, IsNotEmpty, isInt, IsInt, IsOptional } from 'class-validator';
-import { isString } from 'util';
+import {
+  IsEmail,
+  IsNotEmpty,
+  isInt,
+  IsInt,
+  IsOptional,
+  IsLowercase,
+} from 'class-validator';
 
 class CreateAnimeDto {
   @IsNotEmpty()
@@ -20,6 +26,7 @@ class CreateAnimeDto {
   @IsNotEmpty()
   members: string;
 
+  @IsOptional()
   origin: boolean;
 }
 
@@ -49,21 +56,29 @@ class UpdateAnimeDto {
 }
 
 class FilterAnimeDto {
+  @IsOptional()
   name: string;
 
-  genre: string[];
+  @IsOptional()
+  genre: string;
 
+  @IsOptional()
   type: string;
 
+  @IsOptional()
   episodes: string;
 
+  @IsOptional()
   rating: string;
 
+  @IsOptional()
   origin: boolean;
 
+  @IsOptional()
   @IsInt()
   limit: number;
 
+  @IsOptional()
   @IsInt()
   offset: number;
 }

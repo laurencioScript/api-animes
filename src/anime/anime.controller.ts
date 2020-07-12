@@ -6,6 +6,7 @@ import {
   Delete,
   Body,
   Param,
+  Query,
 } from '@nestjs/common';
 import { AnimeService } from './anime.service';
 import { CreateAnimeDto, UpdateAnimeDto, FilterAnimeDto } from './anime.dto';
@@ -15,9 +16,9 @@ export class AnimeController {
   constructor(private readonly serviceAnime: AnimeService) {}
 
   @Get()
-  async getAllAnime() {
+  async getAllAnime(@Query() filter: FilterAnimeDto) {
     try {
-      return this.serviceAnime.getAll();
+      return this.serviceAnime.getAll(filter);
     } catch (error) {}
   }
 
