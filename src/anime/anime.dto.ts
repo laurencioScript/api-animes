@@ -72,7 +72,7 @@ class FilterAnimeDto {
   rating: string;
 
   @IsOptional()
-  origin: boolean;
+  origin: string;
 
   @IsOptional()
   @IsInt()

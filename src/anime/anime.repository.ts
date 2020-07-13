@@ -24,11 +24,9 @@ export class AnimeRepository {
     filter.name ? (params.name = Like(`%${filter.name}%`)) : undefined;
     filter.genre ? (params.genre = Like(`%${filter.genre}%`)) : undefined;
     filter.type ? (params.type = Like(`%${filter.type}%`)) : undefined;
-    filter.episodes
-      ? (params.episodes = Like(`%${filter.episodes}%`))
-      : undefined;
-    filter.rating ? (params.rating = Like(`%${filter.rating}%`)) : undefined;
-    filter.origin ? (params.origin = Like(`%${filter.origin}%`)) : undefined;
+    filter.episodes ? (params.episodes = filter.episodes) : undefined;
+    filter.rating ? (params.rating = filter.rating) : undefined;
+    filter.origin ? (params.origin = filter.origin) : undefined;
 
     return this.repository.find({
       where: params,

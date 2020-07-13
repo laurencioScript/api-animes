@@ -1,10 +1,14 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { AnimeRepository } from './anime.repository';
 import { CreateAnimeDto, UpdateAnimeDto, FilterAnimeDto } from './anime.dto';
+import { CsvService } from 'src/csv/csv.service';
 
 @Injectable()
 export class AnimeService {
-  constructor(private repositoryAnime: AnimeRepository) {}
+  constructor(
+    private repositoryAnime: AnimeRepository,
+    private readonly serviceCsv: CsvService,
+  ) {}
 
   createAnime(anime: CreateAnimeDto) {
     anime = this.lowerCaseText(anime);
@@ -16,10 +20,24 @@ export class AnimeService {
   }
 
   getAll(filters: FilterAnimeDto) {
-    console.log('>>>', filters);
     filters = this.lowerCaseText(filters);
-    console.log('>>>', filters);
     return this.repositoryAnime.getAll(filters);
+  }
+
+  async importAnime(file: any) {
+    const animesCSV = await this.serviceCsv.read(file);
+
+    const animes: CreateAnimeDto[] = animesCSV.map(anime => {
+      delete anime.anime_id;
+      anime.origin = 'true';
+      return this.lowerCaseText(anime);
+    });
+
+    for (const anime of animes) {
+      await this.createAnime(anime);
+    }
+
+    return animes;
   }
 
   updateAnime(anime: UpdateAnimeDto) {
