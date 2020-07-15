@@ -40,6 +40,9 @@ export class AnimeRepository {
 
   async updateAnime(dataAnime: UpdateAnimeDto) {
     const anime = await this.getOne(dataAnime.id);
+    if (anime && anime.origin) {
+      throw { message: 'User Not Authorized, Anime is Origin', status: '403' };
+    }
     anime.name = dataAnime.name;
     anime.rating = dataAnime.rating;
     anime.genre = dataAnime.genre;
@@ -50,7 +53,7 @@ export class AnimeRepository {
     return anime;
   }
 
-  deleteAnime(animeId) {
+  async deleteAnime(animeId) {
     return this.repository.delete(animeId);
   }
 }

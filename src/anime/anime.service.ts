@@ -15,8 +15,13 @@ export class AnimeService {
     return this.repositoryAnime.createAnime(anime);
   }
 
-  getOne(animeId: any) {
-    return this.repositoryAnime.getOne(animeId);
+  async getOne(animeId: any) {
+    const anime = await this.repositoryAnime.getOne(animeId);
+    if (!anime) {
+      throw { message: 'Not Found', status: '404' };
+    }
+
+    return anime;
   }
 
   getAll(filters: FilterAnimeDto) {
@@ -29,7 +34,6 @@ export class AnimeService {
 
     const animes: CreateAnimeDto[] = animesCSV.map(anime => {
       delete anime.anime_id;
-      anime.origin = 'true';
       return this.lowerCaseText(anime);
     });
 
@@ -40,13 +44,21 @@ export class AnimeService {
     return animes;
   }
 
-  updateAnime(anime: UpdateAnimeDto) {
+  async updateAnime(anime: UpdateAnimeDto) {
     anime = this.lowerCaseText(anime);
+    await this.getOne(anime.id);
+    if (anime && anime.origin) {
+      throw { message: 'Anime is origin', status: '400' };
+    }
     return this.repositoryAnime.updateAnime(anime);
   }
 
-  deleteAnime(anime: any) {
-    return this.repositoryAnime.deleteAnime(anime);
+  async deleteAnime(animeId: any) {
+    const anime = await this.getOne(animeId);
+    if (anime && anime.origin) {
+      throw { message: 'Anime is origin', status: '400' };
+    }
+    return this.repositoryAnime.deleteAnime(animeId);
   }
 
   lowerCaseText(anime: any) {

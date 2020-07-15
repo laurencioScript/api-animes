@@ -13,10 +13,13 @@ import {
   Res,
   HttpStatus,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { AnimeService } from './anime.service';
 import { CreateAnimeDto, UpdateAnimeDto, FilterAnimeDto } from './anime.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ErrorHandling } from 'src/error-handling/Error';
 
 @Controller('anime')
 export class AnimeController {
@@ -25,55 +28,63 @@ export class AnimeController {
   @Get()
   async getAllAnime(@Query() filter: FilterAnimeDto) {
     try {
-      return this.serviceAnime.getAll(filter);
-    } catch (error) {}
+      return await this.serviceAnime.getAll(filter);
+    } catch (error) {
+      new ErrorHandling(error);
+    }
   }
 
   @Get('/:id')
   async getOneAnime(@Param('id') animeId) {
     try {
-      return this.serviceAnime.getOne(animeId);
-    } catch (error) {}
+      return await this.serviceAnime.getOne(animeId);
+    } catch (error) {
+      new ErrorHandling(error);
+    }
   }
 
   @Post('csv')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(AnyFilesInterceptor())
   async importAnimes(@UploadedFiles() files) {
     try {
       if (!files || files[0].originalname.indexOf('.csv') < 0) {
         throw { status: '400', message: 'CSV invalid !' };
       }
-      return this.serviceAnime.importAnime(files[0]);
+      return await this.serviceAnime.importAnime(files[0]);
     } catch (error) {
-      throw new HttpException(
-        {
-          status: error.status,
-          error: error.message,
-        },
-        error.status,
-      );
+      new ErrorHandling(error);
     }
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   async createAnime(@Body() anime: CreateAnimeDto) {
     try {
-      return this.serviceAnime.createAnime(anime);
-    } catch (error) {}
+      return await this.serviceAnime.createAnime(anime);
+    } catch (error) {
+      new ErrorHandling(error);
+    }
   }
 
   @Put('/:id')
+  @UseGuards(JwtAuthGuard)
   async updateAnime(@Param('id') animeId, @Body() anime: UpdateAnimeDto) {
     try {
       anime.id = animeId;
-      return this.serviceAnime.updateAnime(anime);
-    } catch (error) {}
+      return await this.serviceAnime.updateAnime(anime);
+    } catch (error) {
+      new ErrorHandling(error);
+    }
   }
 
   @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
   async deleteAnime(@Param('id') animeId) {
     try {
-      return this.serviceAnime.deleteAnime(animeId);
-    } catch (error) {}
+      return await this.serviceAnime.deleteAnime(animeId);
+    } catch (error) {
+      new ErrorHandling(error);
+    }
   }
 }
