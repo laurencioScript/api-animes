@@ -7,11 +7,11 @@ Essa API fornece +12 mil animes cadastrados e permite qualquer contribuir e deix
 
 ### <a href='#'> Documentação da Api </a>
 
-> Começe a usar agora.
+> Começe a usar agora
 
 ### <a href='https://nestjs.com/'> Documentação do NestJS </a>
 
-> Tire duvidas sobre o framework.
+> Tire dúvidas sobre o framework
 
 
 ### <a href='https://www.kaggle.com/CooperUnion/anime-recommendations-database'> CSV dos animes </a>
