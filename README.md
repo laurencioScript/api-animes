@@ -2,7 +2,7 @@
 
 # Animes Api V1.0 - NestJS 
 
-Essa API fornece +12 mil animes cadastrados e permite qualquer contribuir e deixar ela ainda melhor. 
+Essa API fornece +12 mil animes cadastrados e permite qualquer contribuir acrescentando novos animes que já não estejam cadastrados. 
 
 
 ### <a href='#'> Documentação da Api </a>
