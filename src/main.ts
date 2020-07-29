@@ -16,7 +16,7 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle('API OTAKU')
     .setDescription(
-      "Esse é um projeto sem fins lucrativos, o banco de dados conta com +12.000 animes cadastrados, podendo também você cadastrar os animes que te interessam. <p> <a href= 'https://github.com/'>Github<a> ",
+      "Esse é um projeto sem fins lucrativos, o banco de dados conta com +12.000 animes cadastrados, podendo também você cadastrar os animes que te interessam. <p> <a href= 'https://github.com/laurencioScript/api-animes'>Github<a> ",
     )
     .setContact(
       'Gabriel Laurencio',
