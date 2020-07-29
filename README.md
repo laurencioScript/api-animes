@@ -5,7 +5,7 @@
 Essa API fornece +12 mil animes cadastrados e permite qualquer contribuir acrescentando novos animes que já não estejam cadastrados. 
 
 
-### <a href='#'> Documentação da Api </a>
+### <a href='https://api-otaku-nest.herokuapp.com/#/'> Documentação da Api </a>
 
 > Começe a usar agora
 
