@@ -5,7 +5,7 @@
   "author": "laurencio",
   "license": "MIT",
   "scripts": {
-    "prod": "cross-env NODE_ENV=prod npm run start",
+    "prod": "cross-env NODE_ENV=prod nest start",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
