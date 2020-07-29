@@ -34,6 +34,8 @@ export class AnimeService {
 
     const animes: CreateAnimeDto[] = animesCSV.map(anime => {
       delete anime.anime_id;
+      anime.origin = 'true';
+      anime.rating = !anime.rating ? '0' : anime.rating;
       return this.lowerCaseText(anime);
     });
 

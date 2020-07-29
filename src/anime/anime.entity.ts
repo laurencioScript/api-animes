@@ -24,8 +24,8 @@ export class Anime extends BaseEntity {
   @Column({ name: 'episodes', type: 'varchar' })
   episodes: string;
 
-  @Column({ name: 'rating', type: 'varchar' })
-  rating: string;
+  @Column({ name: 'rating', type: 'numeric' })
+  rating: number;
 
   @Column({ name: 'members', type: 'varchar' })
   members: string;

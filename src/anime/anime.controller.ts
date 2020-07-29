@@ -20,12 +20,22 @@ import { CreateAnimeDto, UpdateAnimeDto, FilterAnimeDto } from './anime.dto';
 import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ErrorHandling } from 'src/error-handling/Error';
+import {
+  ApiTags,
+  ApiBearerAuth,
+  ApiOperation,
+  ApiBody,
+  ApiQuery,
+  ApiParam,
+} from '@nestjs/swagger';
 
 @Controller('anime')
+@ApiTags('anime')
 export class AnimeController {
   constructor(private readonly serviceAnime: AnimeService) {}
 
   @Get()
+  @ApiOperation({ summary: 'get all anime' })
   async getAllAnime(@Query() filter: FilterAnimeDto) {
     try {
       return await this.serviceAnime.getAll(filter);
@@ -35,6 +45,8 @@ export class AnimeController {
   }
 
   @Get('/:id')
+  @ApiOperation({ summary: 'get one anime' })
+  @ApiParam({ name: 'id' })
   async getOneAnime(@Param('id') animeId) {
     try {
       return await this.serviceAnime.getOne(animeId);
@@ -46,6 +58,8 @@ export class AnimeController {
   @Post('csv')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(AnyFilesInterceptor())
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'import animes with csv' })
   async importAnimes(@UploadedFiles() files) {
     try {
       if (!files || files[0].originalname.indexOf('.csv') < 0) {
@@ -58,6 +72,8 @@ export class AnimeController {
   }
 
   @Post()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'create anime' })
   @UseGuards(JwtAuthGuard)
   async createAnime(@Body() anime: CreateAnimeDto) {
     try {
@@ -68,6 +84,9 @@ export class AnimeController {
   }
 
   @Put('/:id')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'update anime' })
+  @ApiParam({ name: 'id' })
   @UseGuards(JwtAuthGuard)
   async updateAnime(@Param('id') animeId, @Body() anime: UpdateAnimeDto) {
     try {
@@ -79,6 +98,9 @@ export class AnimeController {
   }
 
   @Delete('/:id')
+  @ApiBearerAuth()
+  @ApiParam({ name: 'id' })
+  @ApiOperation({ summary: 'search associated readers' })
   @UseGuards(JwtAuthGuard)
   async deleteAnime(@Param('id') animeId) {
     try {

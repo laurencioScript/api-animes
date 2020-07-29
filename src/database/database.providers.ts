@@ -6,11 +6,11 @@ export const databaseProviders = [
     useFactory: async () =>
       await createConnection({
         type: 'postgres',
-        host: 'localhost',
+        host: process.env.HOST || 'localhost',
         port: 5432,
-        username: 'postgres',
-        password: 'root',
-        database: 'db-otaku',
+        username: process.env.USER || 'postgres',
+        password: process.env.PASSWORD || 'root',
+        database: process.env.DATABASE || 'db-otaku',
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: true,
       }),

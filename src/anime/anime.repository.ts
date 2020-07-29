@@ -10,7 +10,14 @@ export class AnimeRepository {
     private repository: Repository<Anime>,
   ) {}
   async createAnime(dataAnime: CreateAnimeDto) {
-    const anime = await this.repository.create(dataAnime);
+    const anime = await this.repository.create();
+    anime.name = dataAnime.name;
+    anime.genre = dataAnime.genre;
+    anime.episodes = dataAnime.episodes;
+    anime.members = dataAnime.members;
+    anime.rating = dataAnime.rating;
+    anime.type = dataAnime.type;
+
     await anime.save();
     return anime;
   }
