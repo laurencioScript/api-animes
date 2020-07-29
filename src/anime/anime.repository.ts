@@ -17,7 +17,7 @@ export class AnimeRepository {
     anime.members = dataAnime.members;
     anime.rating = dataAnime.rating;
     anime.type = dataAnime.type;
-
+    anime.origin = true;
     await anime.save();
     return anime;
   }

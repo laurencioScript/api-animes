@@ -93,12 +93,10 @@ class FilterAnimeDto {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsInt()
   limit: number;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  @IsInt()
   offset: number;
 }
 
